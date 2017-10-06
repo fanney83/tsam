@@ -57,10 +57,9 @@ int main(int argc, char *argv[])
 	server_addr.sin_family = AF_INET;
 	server_addr.sin_addr.s_addr = INADDR_ANY;
 	server_addr.sin_port = htons(1090);
-	
 
 	
-	memset(&server_addr, 0, sizeof(server_addr));
+	//memset(&server_addr, 0, sizeof(server_addr));
 
 	if(bind(fd_server, (struct sockaddr *) &server_addr, sizeof(server_addr)) == -1) {
 		perror("bind");
@@ -80,8 +79,10 @@ int main(int argc, char *argv[])
 	while(1) {
 
 		printf("Waiting for client...\n");
+		
 		fd_client = accept(fd_server, (struct sockaddr *) &client_addr, &sin_len);
 		ip_host = inet_ntoa(client_addr.sin_addr);
+		
 		struct timeval tmvl;
 
 		//timer for client timeout checkes
