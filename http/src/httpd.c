@@ -24,8 +24,13 @@ char webpage[] =
 	"<!DOCTYPE html>\r\n"
 	"<html><head><title>ShellWaveX</title>\r\n"
 	"<style>body {backgroung-color: #FFFF00 }</style></head>\r\n"
-	"<body><center><h1>Hello World!</h1><br>\r\n"
+	"<body><center><h1>Halló!Halló!</h1><br>\r\n"
 	"</center></body></html>\r\n";
+
+
+void accept_client_request() {
+
+}
 
 
 int main(int argc, char *argv[])
@@ -101,28 +106,26 @@ int main(int argc, char *argv[])
 			continue;
 		}	
 		
-		printf("Client connection!!!");
+		printf("Client connection!!!\n");
 		/*recieve from fd_client -> got this from slides*/
 		ssize_t n = recv(fd_client, message, sizeof(message) -1, 0);
 		/*Accept a request from client*/
 
 		/*Which request are we dealing with GET, POST or HEAD*/
 
-
-
-		close(fd_server);
+		//close(fd_server);
 		memset(buf, 0, 2048);
 		read(fd_client,buf, 2047);
 	
-		printf("%s\n", buf);
+		//printf("%s\n", buf);
 		
 			
-		write(fd_client, webpage, sizeof(webpage) - 1);
+		//write(fd_client, webpage, sizeof(webpage) - 1);
 
 		close(fd_client);
 		printf("closing");
-		exit(0);
-		close(fd_server);
+		//exit(0);
+		//close(fd_server);
 
 	}
 
