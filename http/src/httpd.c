@@ -34,20 +34,25 @@ int main(int argc, char *argv[])
 
 	struct sockaddr_in server_addr, client_addr;
 	socklen_t sin_len = sizeof(client_addr);
-	int fd_server, fd_client;
 
-	char buf[2048]; //content sent by browser
+	char buf[2048]; /*content sent by browser*/
+	char message[512];
 	char* ip_host;
+
+	int fd_server, fd_client;
 	int fding;
 	int on = 1;
+	size_t i,j;
 
 
 	if(argc != 2) {
 		printf("Please provide two arguments");
 	}
-	int port = strtol(argv[1], NULL, 10);
+	
+	//int port = strtol(argv[1], NULL, 10);
 
 	fd_server = socket(AF_INET, SOCK_STREAM,0);
+	
 	if(fd_server < 0) {
 		perror("socket");
 		exit(1);
@@ -80,12 +85,14 @@ int main(int argc, char *argv[])
 
 		printf("Waiting for client...\n");
 		
+		/*accepting a tcp connection*/
 		fd_client = accept(fd_server, (struct sockaddr *) &client_addr, &sin_len);
 		ip_host = inet_ntoa(client_addr.sin_addr);
 		
+
 		struct timeval tmvl;
 
-		//timer for client timeout checkes
+		/*timer for client timeout checkes*/
 		tmvl.tv_sec = 5;
 		tmvl.tv_usec = 0;
 
@@ -95,7 +102,14 @@ int main(int argc, char *argv[])
 		}	
 		
 		printf("Client connection!!!");
-			//child process
+		/*recieve from fd_client -> got this from slides*/
+		ssize_t n = recv(fd_client, message, sizeof(message) -1, 0);
+		/*Accept a request from client*/
+
+		/*Which request are we dealing with GET, POST or HEAD*/
+
+
+
 		close(fd_server);
 		memset(buf, 0, 2048);
 		read(fd_client,buf, 2047);
@@ -108,7 +122,6 @@ int main(int argc, char *argv[])
 		close(fd_client);
 		printf("closing");
 		exit(0);
-		//parent process
 		close(fd_server);
 
 	}
